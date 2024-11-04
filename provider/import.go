@@ -31,20 +31,25 @@ func Import(ctx context.Context, p Provider, hcl, tfstate writer.Writer, f *filt
 		types        []string
 		typesWithIDs map[string][]string
 	)
-
+	fmt.Println("ff_test11")
 	if len(f.Targets) != 0 {
+		fmt.Println("ttttttt")
 		typesWithIDs = f.TargetsTypesWithIDs()
+		fmt.Println("ff_test22")
 		for k := range typesWithIDs {
 			if !p.HasResourceType(k) {
+				fmt.Println("ff_test33")
 				return errors.Wrapf(errcode.ErrProviderResourceNotSupported, "type %s on Target filter", k)
 			}
 			types = append(types, k)
 		}
 	} else {
 		// Validate if the Include filter is right
+		fmt.Println("aaaaaaaa")
 		if len(f.Include) != 0 {
 			for _, i := range f.Include {
 				if !p.HasResourceType(i) {
+					fmt.Println("ff_test44")
 					return errors.Wrapf(errcode.ErrProviderResourceNotSupported, "type %s on Include filter", i)
 				}
 			}
@@ -57,6 +62,7 @@ func Import(ctx context.Context, p Provider, hcl, tfstate writer.Writer, f *filt
 		if len(f.Exclude) != 0 {
 			for _, e := range f.Exclude {
 				if !p.HasResourceType(e) {
+					fmt.Println("ff_test55")
 					return errors.Wrapf(errcode.ErrProviderResourceNotSupported, "type %s on Exclude filter", e)
 				}
 			}
@@ -69,6 +75,7 @@ func Import(ctx context.Context, p Provider, hcl, tfstate writer.Writer, f *filt
 	interpolation := interpolator.New(p.String())
 
 	for _, t := range types {
+		fmt.Println("kkk_test")
 		logger := kitlog.With(logger, "resource", t)
 
 		if f.IsExcluded(t) {

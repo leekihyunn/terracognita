@@ -253,6 +253,7 @@ func postRunEOutput(cmd *cobra.Command, args []string) error {
 // getWriterOptions will initialize the common writer.Options from the flags
 func getWriterOptions() (*writer.Options, error) {
 	var module string
+	fmt.Println("test11")
 	var mv = make(map[string]struct{})
 	if m := viper.GetString("module"); m != "" {
 		module = filepath.Base(m)
@@ -323,6 +324,7 @@ func importProvider(ctx context.Context, logger kitlog.Logger, p provider.Provid
 
 	fmt.Fprintf(logsOut, "Starting Terracognita with version %s\n", Version)
 	logger.Log("msg", "starting terracognita", "version", Version)
+	fmt.Println(ctx, p, hclW, stateW, f, logsOut)
 	err = provider.Import(ctx, p, hclW, stateW, f, logsOut)
 	if err != nil {
 		return errors.Wrap(err, "could not import from "+p.String())

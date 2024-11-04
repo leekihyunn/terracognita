@@ -501,6 +501,8 @@ type Reader interface {
 	// Returned values are commented in the interface doc comment block.
 	GetDBParameterGroups(ctx context.Context, input *rds.DescribeDBParameterGroupsInput) ([]*rds.DBParameterGroup, error)
 
+	GetDBClusterParameterGroups(ctx context.Context, input *rds.DescribeDBClusterParameterGroupsInput) ([]*rds.DBClusterParameterGroup, error)
+
 	// GetDBSubnetGroups returns all DB DBSubnetGroups based on the input given.
 	// Returned values are commented in the interface doc comment block.
 	GetDBSubnetGroups(ctx context.Context, input *rds.DescribeDBSubnetGroupsInput) ([]*rds.DBSubnetGroup, error)
@@ -3830,6 +3832,38 @@ func (c *connector) GetDBParameterGroups(ctx context.Context, input *rds.Describ
 		hasNextToken = o.Marker != nil
 
 		opt = append(opt, o.DBParameterGroups...)
+
+	}
+
+	return opt, nil
+}
+
+
+func (c *connector) GetDBClusterParameterGroups(ctx context.Context, input *rds.DescribeDBClusterParameterGroupsInput) ([]*rds.DBClusterParameterGroup, error) {
+	if c.svc.rds == nil {
+		c.svc.rds = rds.New(c.svc.session)
+	}
+
+	opt := make([]*rds.DBClusterParameterGroup, 0)
+
+	hasNextToken := true
+	for hasNextToken {
+		o, err := c.svc.rds.DescribeDBClusterParameterGroupsWithContext(ctx, input)
+		if err != nil {
+			return nil, err
+		}
+		if o.DBClusterParameterGroups == nil {
+			hasNextToken = false
+			continue
+		}
+
+		if input == nil {
+			input = &rds.DescribeDBClusterParameterGroupsInput{}
+		}
+		input.Marker = o.Marker
+		hasNextToken = o.Marker != nil
+
+		opt = append(opt, o.DBClusterParameterGroups...)
 
 	}
 

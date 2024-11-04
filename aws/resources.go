@@ -185,6 +185,7 @@ const (
 	VPCEndpoint
 	VPCPeeringConnection
 	VPNGateway
+	DBClusterParameterGroup
 )
 
 type rtFn func(ctx context.Context, a *aws, resourceType string, filters *filter.Filter) ([]provider.Resource, error)
@@ -321,6 +322,7 @@ var (
 		VPC:                          vpcs,
 		VPCEndpoint:                  vpcEndpoints,
 		VPNGateway:                   vpnGateways,
+		DBClusterParameterGroup:      dbClusterParameterGroups,
 	}
 )
 
@@ -978,6 +980,26 @@ func dbParameterGroups(ctx context.Context, a *aws, resourceType string, filters
 	for _, i := range dbParameterGroups {
 
 		r, err := initializeResource(a, *i.DBParameterGroupName, resourceType)
+		if err != nil {
+			return nil, err
+		}
+
+		resources = append(resources, r)
+	}
+
+	return resources, nil
+}
+
+func dbClusterParameterGroups(ctx context.Context, a *aws, resourceType string, filters *filter.Filter) ([]provider.Resource, error) {
+	dbClusterParameterGroups, err := a.awsr.GetDBClusterParameterGroups(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resources := make([]provider.Resource, 0)
+	for _, i := range dbClusterParameterGroups {
+
+		r, err := initializeResource(a, *i.DBClusterParameterGroupName, resourceType)
 		if err != nil {
 			return nil, err
 		}
