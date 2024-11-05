@@ -324,7 +324,6 @@ func importProvider(ctx context.Context, logger kitlog.Logger, p provider.Provid
 
 	fmt.Fprintf(logsOut, "Starting Terracognita with version %s\n", Version)
 	logger.Log("msg", "starting terracognita", "version", Version)
-	fmt.Println(ctx, p, hclW, stateW, f, logsOut)
 	err = provider.Import(ctx, p, hclW, stateW, f, logsOut)
 	if err != nil {
 		return errors.Wrap(err, "could not import from "+p.String())

@@ -550,16 +550,11 @@ var _ResourceTypeNames = []string{
 // ResourceTypeString retrieves an enum value from the enum constants string name.
 // Throws an error if the param is not part of the enum.
 func ResourceTypeString(s string) (ResourceType, error) {
-	fmt.Println("aws_test1")
 	if val, ok := _ResourceTypeNameToValueMap[s]; ok {
-		fmt.Println("aws_test22")
-		fmt.Println("---",val,"---")	
 		return val, nil
 	}
 	s = strings.ToLower(s)
 	if val, ok := _ResourceTypeNameToValueMap[s]; ok {
-		fmt.Println("aws_test33")
-		fmt.Println(val,ok)		
 		return val, nil
 	}
 	return 0, fmt.Errorf("%s does not belong to ResourceType values", s)
@@ -567,7 +562,6 @@ func ResourceTypeString(s string) (ResourceType, error) {
 
 // ResourceTypeValues returns all values of the enum
 func ResourceTypeValues() []ResourceType {
-	fmt.Println("aaa")
 	return _ResourceTypeValues
 }
 

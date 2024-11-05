@@ -93,7 +93,6 @@ func (a *aws) Resources(ctx context.Context, t string, f *filter.Filter) ([]prov
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("cp_1 ")
 	rfn, ok := resources[rt]
 	if !ok {
 		return nil, errors.Errorf("the resource %q it's not implemented", t)
