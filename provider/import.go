@@ -31,6 +31,7 @@ func Import(ctx context.Context, p Provider, hcl, tfstate writer.Writer, f *filt
 		types        []string
 		typesWithIDs map[string][]string
 	)
+
 	if len(f.Targets) != 0 {
 		typesWithIDs = f.TargetsTypesWithIDs()
 		for k := range typesWithIDs {

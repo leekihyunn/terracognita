@@ -253,7 +253,6 @@ func postRunEOutput(cmd *cobra.Command, args []string) error {
 // getWriterOptions will initialize the common writer.Options from the flags
 func getWriterOptions() (*writer.Options, error) {
 	var module string
-	fmt.Println("test11")
 	var mv = make(map[string]struct{})
 	if m := viper.GetString("module"); m != "" {
 		module = filepath.Base(m)
